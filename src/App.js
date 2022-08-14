@@ -1,50 +1,42 @@
-import './App.css';
-import {Button, Navbar, Container, Nav, Row, Col} from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import data from './data.js';
-import { useState } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-
+import { useState } from "react"
+import { Navbar, Container, Nav } from "react-bootstrap"
+import './App.css'
+import data from './data.js'
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
+import Detail from './routes/Datail.js'
 
 function App() {
+
   let [shoes] = useState(data);
+  let navigate = useNavigate();
 
   return (
-    <div>
-
-
-
-      <Navbar bg="dark" variant="dark">
+    <div className='App'>
+      <Navbar bg="light" variant="light">
         <Container>
-        <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+        <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#features">Features</Nav.Link>
-          <Nav.Link href="#pricing">Pricing</Nav.Link>
+          <Nav.Link onClick={()=>{ navigate('/') }}>Home</Nav.Link>
+          <Nav.Link onClick={()=>{ navigate('/detail')}}>Detail</Nav.Link>
         </Nav>
         </Container>
       </Navbar>
-
-
       
       <Routes>
         <Route path="/" element={
           <>
             <div className="main-bg"></div>
-            <Container>
-              <Row>
+            <div className="conatiner">
+              <div className="row">
                 {
-                  shoes.map((a, i)=>{
-                    return(
-                      <Card shoes={shoes[i]} i={i}></Card> 
-                    )    
-                  })
-                }
-              </Row>
-            </Container>          
+                  shoes.map((a, i) => {
+                    return <Card shoes={shoes[i]} i={i}></Card>
+                  })}
+              </div>
+            </div>         
           </>
         }/>
-        <Route path="/detail" element={<div>상세페이지임</div>}/>
+        <Route path="/detail" element={<Detail shoes={shoes}/>}/>
       </Routes>
 
 
