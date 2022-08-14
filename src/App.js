@@ -1,64 +1,32 @@
-import { useState } from "react"
-import { Navbar, Container, Nav } from "react-bootstrap"
-import './App.css'
-import data from './data.js'
-import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
-import Detail from './routes/Datail.js'
+import "./App.css";
+import Main from "./pages/Main";
+import Header from "./pages/Header";
+import { Route, Routes } from "react-router-dom";
+import Detail from "./pages/Detail";
+import About from "./pages/About";
+import Event from "./pages/Event";
 
 function App() {
-
-  let [shoes] = useState(data);
-  let navigate = useNavigate();
-
   return (
-    <div className='App'>
-      <Navbar bg="light" variant="light">
-        <Container>
-        <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
-        <Nav className="me-auto">
-          <Nav.Link onClick={()=>{ navigate('/') }}>Home</Nav.Link>
-          <Nav.Link onClick={()=>{ navigate('/detail')}}>Detail</Nav.Link>
-        </Nav>
-        </Container>
-      </Navbar>
-      
+    <div>
+      <Header />
+
       <Routes>
-        <Route path="/" element={
-          <>
-            <div className="main-bg"></div>
-            <div className="conatiner">
-              <div className="row">
-                {
-                  shoes.map((a, i) => {
-                    return <Card shoes={shoes[i]} i={i}></Card>
-                  })}
-              </div>
-            </div>         
-          </>
-        }/>
-        <Route path="/detail" element={<Detail shoes={shoes}/>}/>
+        <Route path="/" element={<Main />} />
+        <Route path="/detail" element={<Detail />} />
+        <Route path="/about" element={<About />}>
+          <Route path="member" element={<div>회원정보로 이동함</div>} />
+          <Route path="location" element={<div>위치정보로 이동함</div>} />
+        </Route>
+        <Route path="/event" element={<Event />}>
+          <Route path="one" element={<div>첫 주문 시 양배추즙 서비스</div>} />
+          <Route path="two" element={<div>생일 기념 쿠폰 받기</div>} />
+        </Route>
+
+        <Route path="*" element={"없는 페이지 입니다"} />
       </Routes>
-
-
-
-
-
     </div>
   );
-  
-  function Card (props) {
-    return (
-      <div>
-        <Col sm>            
-          <img src={'https://codingapple1.github.io/shop/shoes'+ (props.i+1)+ '.jpg'} width="60%"/>
-          <h4>{props.shoes.title}</h4>
-          <p>{props.shoes.content}</p>
-        </Col>
-      </div>
-    )
-  }
-
-
 }
 
 export default App;
